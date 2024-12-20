@@ -311,17 +311,42 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // input-focus
-  document.querySelector('.header-buttons .icon-input').addEventListener('click', (event) => {
-    const inputField = document.querySelector('.header-buttons .input');
-    console.log(inputField)
-    document.activeElement !== inputField ? inputField.focus() : event.preventDefault();
+  const inputField = document.querySelector('.header-buttons .input');
+  const iconInput = document.querySelector('.header-buttons .icon-input');
+  let isIconClicked = false;
+  
+  iconInput.addEventListener('mousedown', (event) => {
+      isIconClicked = true; 
+      if (document.activeElement !== inputField) inputField.focus(); 
+  });
+  inputField.addEventListener('blur', (event) => {
+      if (isIconClicked) {
+          isIconClicked = false;
+          event.preventDefault();
+          inputField.focus();
+      }
+  });
+  inputField.addEventListener('mousedown', (event) => {
+      if (document.activeElement === inputField) event.preventDefault();
   });
 
-  const iconInputSlide = document.querySelector('#slide-header-buttons .icon-input');
-  if (iconInputSlide) {  
-      iconInputSlide.addEventListener('click', () => {
-      const input = document.querySelector('#slide-header-buttons .input');
-      if (input) input.focus()
-    });
-  }
+
+  const inputFieldInBurger = document.querySelector('#slide-header-buttons .input');
+  const iconInputInBurger = document.querySelector('#slide-header-buttons .icon-input');
+  let isIconClickedInBurger = false;
+
+  iconInputInBurger.addEventListener('mousedown', (event) => {
+    isIconClickedInBurger = true; 
+    if (document.activeElement !== inputFieldInBurger) inputFieldInBurger.focus(); 
+  });
+  inputFieldInBurger.addEventListener('blur', (event) => {
+      if (isIconClickedInBurger) {
+          isIconClickedInBurger = false;
+          event.preventDefault();
+          inputFieldInBurger.focus();
+      }
+  });
+  inputFieldInBurger.addEventListener('mousedown', (event) => {
+      if (document.activeElement === inputFieldInBurger) event.preventDefault();
+  });
 });
